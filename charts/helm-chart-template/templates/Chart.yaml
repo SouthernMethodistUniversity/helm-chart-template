@@ -1,0 +1,12 @@
+apiVersion: v2
+name: helm-chart-template
+description: This chart was created using the helm-chart-template. Please replace this description to match your application.
+
+type: application
+
+version: 0.0.1
+appVersion: "v0.0.1"
+
+maintainers:
+  - name: Mateo Langston Smith
+    email: mlangstonsmith@smu.edu

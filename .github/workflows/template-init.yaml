@@ -1,0 +1,78 @@
+name: Template Repo Initialization
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  init-from-template:
+    runs-on: ubuntu-latest
+    if: github.event.created == true  # Only runs on initial push to main
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+
+      - name: Rename chart folder to match repo name
+        run: |
+          REPO_NAME=$(basename "${GITHUB_REPOSITORY}")
+          TEMPLATE_PATH="charts/chart-template"
+          
+          if [ -d "$TEMPLATE_PATH" ]; then
+            mv "$TEMPLATE_PATH" "charts/$REPO_NAME"
+            echo "Renamed chart-template to charts/$REPO_NAME"
+          else
+            echo "No chart-template folder found. Skipping rename."
+          fi
+
+      - name: Update chart metadata with repo name
+        run: |
+          REPO_NAME=$(basename "${GITHUB_REPOSITORY}")
+          CHART_FILE="charts/$REPO_NAME/Chart.yaml"
+          
+          if [ -f "$CHART_FILE" ]; then
+            sed -i "s/^name: .*/name: $REPO_NAME/" "$CHART_FILE"
+            echo "Updated chart name in Chart.yaml to $REPO_NAME"
+          else
+            echo "Chart.yaml not found. Skipping metadata update."
+          fi
+
+      - name: Update values.yaml with dynamic cname and image
+        run: |
+          REPO_NAME=$(basename "${GITHUB_REPOSITORY}")
+          VALUES_FILE="charts/$REPO_NAME/values.yaml"
+
+          if [ -f "$VALUES_FILE" ]; then
+            # Update image name
+            sed -i "s|^\(\s*name:\s*\).*|\\1ghcr.io/southernmethodistuniversity/$REPO_NAME|" "$VALUES_FILE"
+
+            # Update ingress cname
+            sed -i "s|^\(\s*cname:\s*\).*|\\1$REPO_NAME.oitresearch.smu.edu|" "$VALUES_FILE"
+
+            echo "Updated image name and ingress cname in values.yaml"
+          else
+            echo "values.yaml not found. Skipping update."
+          fi
+
+      - name: Commit changes
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+
+          git add charts/
+          git commit -m "Initialize chart with renamed folder and metadata" || echo "Nothing to commit"
+          git push
+
+      - name: Delete this workflow file
+        run: |
+          rm .github/workflows/template-init.yaml
+
+      - name: Commit and push workflow deletion
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+
+          git add .github/workflows/template-init.yaml
+          git commit -m "Remove template-init workflow after initialization" || echo "Nothing to commit"
+          git push
