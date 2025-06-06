@@ -1,0 +1,18 @@
+apiVersion: v1
+entries:
+  helm-chart-template:
+  - apiVersion: v2
+    appVersion: v0.0.1
+    created: "2025-06-06T19:29:12.872885789Z"
+    description: This chart was created using the helm-chart-template. Please replace
+      this description to match your application.
+    digest: 57de93c9fb0e91ef37050c01b34f5fc280b9e42bd52baac6ae3f0db96ec9309f
+    maintainers:
+    - email: mlangstonsmith@smu.edu
+      name: Mateo Langston Smith
+    name: helm-chart-template
+    type: application
+    urls:
+    - https://github.com/SouthernMethodistUniversity/helm-chart-template/releases/download/helm-chart-template-0.0.1/helm-chart-template-0.0.1.tgz
+    version: 0.0.1
+generated: "2025-06-06T19:29:12.872894987Z"
