@@ -16,6 +16,7 @@ on:
 
 jobs:
   build-and-push:
+    if: github.event.created != true
     runs-on: ubuntu-latest
 
     steps:

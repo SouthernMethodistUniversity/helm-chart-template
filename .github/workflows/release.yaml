@@ -12,6 +12,7 @@ on:
 
 jobs:
   release:
+    if: github.event.created != true
     permissions:
       contents: write
     runs-on: ubuntu-latest
