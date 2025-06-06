@@ -66,10 +66,8 @@ jobs:
 
     - name: Debug Tags
       run: |
-        echo "Frontend Tags:"
-        echo "${{ steps.vars.outputs.frontend_tags }}"
-        echo "Backend Tags:"
-        echo "${{ steps.vars.outputs.backend_tags }}"
+        echo "Tags:"
+        echo "${{ steps.vars.outputs.tags }}"
 
     - name: Build and Push Image
       uses: docker/build-push-action@v5
@@ -78,4 +76,4 @@ jobs:
         file: ./src/Dockerfile
         push: true
         platforms: linux/amd64
-        tags: ${{ steps.vars.outputs.frontend_tags }}
+        tags: ${{ steps.vars.outputs.tags }}
