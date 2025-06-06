@@ -70,8 +70,8 @@ jobs:
 
       - name: Commit and push workflow deletion
         run: |
-          git config --global user.name "github-actions[bot]"
-          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git config --global user.name "$GITHUB_ACTOR"
+          git config --global user.email "$GITHUB_ACTOR@users.noreply.github.com"
 
           git add .github/workflows/template-init.yaml
           git commit -m "Remove template-init workflow after initialization" || echo "Nothing to commit"
