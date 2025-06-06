@@ -17,7 +17,7 @@ jobs:
       - name: Rename chart folder to match repo name
         run: |
           REPO_NAME=$(basename "${GITHUB_REPOSITORY}")
-          TEMPLATE_PATH="charts/chart-template"
+          TEMPLATE_PATH="charts/helm-chart-template"
           
           if [ -d "$TEMPLATE_PATH" ]; then
             mv "$TEMPLATE_PATH" "charts/$REPO_NAME"
